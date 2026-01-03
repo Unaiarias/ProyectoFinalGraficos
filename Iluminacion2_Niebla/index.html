@@ -106,25 +106,26 @@
         float dist = abs(ecPositionOut.z);
 
         // “viento” usando la posición del fragmento (en espacio de cámara)
-        float drift = ecPositionOut.x * 0.6 + ecPositionOut.y * 0.2 + uTime * 1.2;
-        float wave  = 0.5 + 0.5 * sin(drift);
+        float drift = ecPositionOut.x * 1.4 + ecPositionOut.y * 0.8 + uTime * 1.5;
+        float bank  = 0.5 + 0.5 * sin(drift);     // 0..1
+        bank = pow(bank, 2.5);                    // concentra bancos (más contraste)
+        dist += bank * 2.5;   // o 2.5            // empuja niebla fuerte
 
-        // aumentamos o reducimos la “distancia efectiva” => parece que la niebla avanza
-        dist += wave * 1.2; // amplitud (ajústala a tu gusto)
 
-            float fogFactor;
 
-            if (fogMode == 0) {
-                fogFactor = (fogMax - dist) / (fogMax - fogMin);
-            } else {
-                float dnorm = clamp((dist - fogMin) / (fogMax - fogMin), 0.0, 1.0);
-                fogFactor = exp(-pow(dnorm * 3.0, 2.0));
-            }
+        float fogFactor;
 
-            fogFactor = clamp(fogFactor, 0.0, 1.0);
-            vec3 finalColor = mix(fogColor, litColor, fogFactor);
-            fragmentColor = vec4(finalColor, 1.0);
+        if (fogMode == 0) {
+            fogFactor = (fogMax - dist) / (fogMax - fogMin);
+        } else {
+            float dnorm = clamp((dist - fogMin) / (fogMax - fogMin), 0.0, 1.0);
+            fogFactor = exp(-pow(dnorm * 3.0, 2.0));
         }
+
+        fogFactor = clamp(fogFactor, 0.0, 1.0);
+        vec3 finalColor = mix(fogColor, litColor, fogFactor);
+        fragmentColor = vec4(finalColor, 1.0);
+                        }
     </script>
 
 </head>

@@ -218,9 +218,9 @@ function draw(timeSeconds = 0) {
     gl.uniform3fv(gl.getUniformLocation(program, "Light.Position"), eye);
 
     // --- niebla ---
-    gl.uniform1f(gl.getUniformLocation(program, "fogMin"), 1.0);
-    gl.uniform1f(gl.getUniformLocation(program, "fogMax"), 6.0);
-    gl.uniform3fv(gl.getUniformLocation(program, "fogColor"), [1.0, 0.15, 0.15]);
+    gl.uniform1f(gl.getUniformLocation(program, "fogMin"), 1.5);
+    gl.uniform1f(gl.getUniformLocation(program, "fogMax"), 6.5);
+    gl.uniform3fv(gl.getUniformLocation(program, "fogColor"), [0.15, 0.15, 0.15]);
     gl.uniform1i(gl.getUniformLocation(program, "fogEnabled"), fogEnabled);
     gl.uniform1i(gl.getUniformLocation(program, "fogMode"), fogMode);
 
