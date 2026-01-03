@@ -58,6 +58,9 @@ let shiftPressed = false;
 // Niebla
 let fogEnabled = 1;
 let fogMode = 0;
+let uTimeLoc;
+let startTime = 0;
+
 
 function addControls(canvas) {
 
@@ -143,6 +146,8 @@ function initProgram() {
     }
 
     gl.useProgram(program);
+    uTimeLoc = gl.getUniformLocation(program, "uTime");
+
 }
 
 // ======================= BUFFERS =========================
@@ -179,7 +184,7 @@ function getEye() {
 
 // ======================= DIBUJO =========================
 
-function draw() {
+function draw(timeSeconds = 0) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const eye = getEye();
@@ -220,6 +225,7 @@ function draw() {
     gl.uniform1i(gl.getUniformLocation(program, "fogMode"), fogMode);
 
     // --- draw ---
+    gl.uniform1f(uTimeLoc, timeSeconds);
     gl.drawElements(gl.TRIANGLES, cube.indices.length, gl.UNSIGNED_SHORT, 0);
 }
 
@@ -235,7 +241,15 @@ function init() {
     addControls(canvas);
     initProgram();
     initBuffers();
-    draw();
+    startTime = performance.now();
+
+    function frame() {
+        const t = (performance.now() - startTime) * 0.001; // segundos
+        draw(t);
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
 }
 
 init();

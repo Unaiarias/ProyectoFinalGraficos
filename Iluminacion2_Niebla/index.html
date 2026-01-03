@@ -18,6 +18,7 @@
         }
     </style>
 
+
     <!-- Shaders como text/plain para evitar bloqueos -->
     <script id="vs" type="text/plain">
         #version 300 es
@@ -40,6 +41,8 @@
             gl_Position = projectionMatrix * ecPosition;
         }
     </script>
+
+    <!-- ================= FRAGMENT SHADER ================= -->
 
     <script id="fs" type="text/plain">
         #version 300 es
@@ -70,6 +73,8 @@
         uniform vec3 fogColor;
         uniform int fogEnabled;
         uniform int fogMode;
+        uniform float uTime;
+
 
         vec3 phong(vec3 N, vec3 L, vec3 V) {
             vec3 ambient = Material.Ka * Light.La;
@@ -98,7 +103,15 @@
                 return;
             }
 
-            float dist = abs(ecPositionOut.z);
+        float dist = abs(ecPositionOut.z);
+
+        // “viento” usando la posición del fragmento (en espacio de cámara)
+        float drift = ecPositionOut.x * 0.6 + ecPositionOut.y * 0.2 + uTime * 1.2;
+        float wave  = 0.5 + 0.5 * sin(drift);
+
+        // aumentamos o reducimos la “distancia efectiva” => parece que la niebla avanza
+        dist += wave * 1.2; // amplitud (ajústala a tu gusto)
+
             float fogFactor;
 
             if (fogMode == 0) {
