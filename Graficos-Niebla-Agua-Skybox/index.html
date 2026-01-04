@@ -246,9 +246,9 @@ void main() {
 
     float dist = abs(ecPositionOut.z);
 
-    float drift = ecPositionOut.x * 1.4 + ecPositionOut.y * 0.8 + uTime * 1.5;
+    float drift = ecPositionOut.x * 1.8 + ecPositionOut.y * 1.0 + uTime * 1.8;
     float bank = 0.5 + 0.5 * sin(drift);
-    bank = pow(bank, 2.5);
+    bank = pow(bank, 3.0);
     dist += bank * 2.5;
 
     float fogFactor;

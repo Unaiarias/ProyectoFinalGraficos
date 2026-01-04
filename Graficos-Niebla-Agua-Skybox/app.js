@@ -345,7 +345,7 @@ function draw(t) {
     
     if (fogMinLoc) gl.uniform1f(fogMinLoc, 1.5);
     if (fogMaxLoc) gl.uniform1f(fogMaxLoc, 6.5);
-    if (fogColorLoc) gl.uniform3fv(fogColorLoc, [0.15, 0.15, 0.15]);
+    if (fogColorLoc) gl.uniform3fv(fogColorLoc, [0.55, 0.75, 0.95]);
     if (fogModeLoc) gl.uniform1f(fogModeLoc, 0.0);
 
     if (uTimeLoc) gl.uniform1f(uTimeLoc, t);
@@ -371,6 +371,18 @@ function draw(t) {
     if (mvLoc) gl.uniformMatrix4fv(mvLoc, false, mv);
     if (nmLoc) gl.uniformMatrix3fv(nmLoc, false, nm);
     if (isWaterLoc) gl.uniform1f(isWaterLoc, 1.0);
+
+    // ===== MATERIAL AGUA (AZUL MUY OSCURA) =====
+
+    // Ambiente: casi negro azulado
+    if (matKaLoc) gl.uniform3fv(matKaLoc, [0.005, 0.015, 0.04]);
+    // Difuso: azul profundo
+    if (matKdLoc) gl.uniform3fv(matKdLoc, [0.02, 0.07, 0.20]);
+    // Especular: reflejos fríos
+    if (matKsLoc) gl.uniform3fv(matKsLoc, [0.85, 0.9, 1.0]);
+    // Brillo alto (aspecto líquido)
+    if (matAlphaLoc) gl.uniform1f(matAlphaLoc, 90.0);
+
 
     gl.bindBuffer(gl.ARRAY_BUFFER, water.vbo);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, water.ibo);
