@@ -388,6 +388,8 @@ function draw(t) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, water.ibo);
     setupAttributes();
     gl.drawElements(gl.TRIANGLES, water.count, gl.UNSIGNED_SHORT, 0);
+
+
 }
 
 /* ======================= INIT ======================= */
@@ -430,6 +432,18 @@ function init() {
         lastX = e.clientX;
         lastY = e.clientY;
     });
+
+    // 🖱️ ZOOM con la rueda del ratón
+    canvas.addEventListener("wheel", (e) => {
+        e.preventDefault();
+
+        // Zoom (ajusta sensibilidad aquí)
+        distance += e.deltaY * 0.01;
+
+        // Límites (para que no atravieses el cubo ni te alejes infinito)
+        distance = Math.max(1.5, Math.min(30.0, distance));
+    }, { passive: false });
+
 
     // Inicializar cursor
     canvas.style.cursor = 'grab';
